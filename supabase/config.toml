@@ -1,0 +1,29 @@
+# Minimale Supabase CLI-configuratie. Vul project_id na `supabase init`/`link`.
+project_id = "zwemschool-bubbles"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+# Sta de auth-callback (en overige paden) toe als redirect-doel. Zonder dit
+# weigert GoTrue de redirect naar /auth/callback en mislukt de inloglink lokaal.
+additional_redirect_urls = ["http://localhost:3000/**", "http://127.0.0.1:3000/**"]
+# Wachtwoordloos voor ouders (e-mail OTP/magic link); MFA voor staff (SEC-1)
+# wordt afgedwongen in applicatie-/Auth-beleid.
+enable_signup = true
+
+[auth.email]
+enable_confirmations = true

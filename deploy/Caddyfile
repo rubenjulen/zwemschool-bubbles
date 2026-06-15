@@ -1,0 +1,23 @@
+# Caddy reverse proxy voor Zwemschool Bubbles (Next.js).
+# Plaats de inhoud in /etc/caddy/Caddyfile op de Hetzner-server en herlaad
+# met:  systemctl reload caddy
+#
+# Anders dan bij MensSana (statische map) draait Bubbles als Node-proces op
+# poort 3000; Caddy is enkel de HTTPS-terminator + reverse proxy.
+# Vervang bubbles.koniq.app door je eigen (sub)domein.
+
+bubbles.koniq.app {
+    encode gzip zstd
+
+    # Next.js draait via systemd op localhost:3000 (zie deploy/bubbles.service).
+    reverse_proxy localhost:3000
+
+    # De service worker niet cachen zodat updates direct doorkomen.
+    @sw path /sw.js
+    header @sw Cache-Control "no-cache, no-store, must-revalidate"
+
+    # Verberg serverversie. Overige security-headers (HSTS, X-Frame-Options,
+    # X-Content-Type-Options, Referrer-Policy, Permissions-Policy) worden door
+    # de app zelf gezet in next.config.mjs.
+    header -Server
+}

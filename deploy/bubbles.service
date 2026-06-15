@@ -1,0 +1,31 @@
+# systemd-unit voor Zwemschool Bubbles (Next.js).
+# Plaats als /etc/systemd/system/bubbles.service op de Hetzner-server, dan:
+#   systemctl daemon-reload
+#   systemctl enable --now bubbles
+#
+# De app leest haar omgevingsvariabelen uit /var/www/bubbles/.env.production.local
+# (Next.js laadt dat bestand automatisch bij start). NEXT_PUBLIC_* worden tijdens
+# de build vastgezet; server-side secrets worden bij runtime gelezen.
+
+[Unit]
+Description=Zwemschool Bubbles (Next.js)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/bubbles
+Environment=NODE_ENV=production
+Environment=PORT=3000
+ExecStart=/var/www/bubbles/node_modules/.bin/next start -p 3000
+Restart=always
+RestartSec=5
+# Beperkte rechten (hardening).
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/www/bubbles/.next
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

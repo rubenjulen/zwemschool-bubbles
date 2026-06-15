@@ -1,0 +1,47 @@
+name: Database
+
+# Past alle migraties toe op een echte Postgres en draait de negatieve RLS-
+# en roosterconflict-tests. Dit valideert het schema, RLS-beleid, de RPC's en
+# triggers automatisch - zonder lokale Docker/Supabase nodig te hebben.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  migrations-and-rls:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGHOST: localhost
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install psql client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Supabase-compat auth shim
+        run: psql -v ON_ERROR_STOP=1 -f supabase/tests/_auth_shim.sql
+      - name: Apply migrations in order
+        run: |
+          for f in $(ls supabase/migrations/*.sql | sort); do
+            echo "==> $f"
+            psql -v ON_ERROR_STOP=1 -f "$f"
+          done
+      - name: Negative RLS tests
+        run: psql -v ON_ERROR_STOP=1 -f supabase/tests/rls_negative.sql
+      - name: Scheduling conflict trigger tests
+        run: psql -v ON_ERROR_STOP=1 -f supabase/tests/scheduling.sql
