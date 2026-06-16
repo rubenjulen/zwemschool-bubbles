@@ -72,6 +72,13 @@ export default async function BeheerDashboard() {
           </span>
         )}
       </Link>
+
+      <Link
+        href="/beheer/communicatie"
+        className="tap-target mt-3 flex items-center justify-center rounded-xl border border-bubbles-100 bg-white p-3 text-sm font-medium text-bubbles-700 shadow-sm"
+      >
+        Aankondiging versturen
+      </Link>
     </AppShell>
   );
 }
