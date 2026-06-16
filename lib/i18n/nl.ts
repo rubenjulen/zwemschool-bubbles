@@ -27,6 +27,7 @@ export const nl = {
     loading: "Weer laden...",
     unavailable: "Weer momenteel niet beschikbaar",
     rainWarning: "Let op: kans op (onweers)buien",
+    next24h: "Komende 24 uur",
   },
   common: {
     loading: "Laden...",

@@ -6,7 +6,7 @@
 // onweer/zware buien) is operationeel relevant voor lesbeslissingen.
 
 export interface WeatherSnapshot {
-  /** Tijdstip van de waarneming/verwachting (ISO 8601). */
+  /** Tijdstip van de waarneming/verwachting (ISO 8601, lokale tijd). */
   observedAt: string;
   temperatureC: number;
   /** Gevoelstemperatuur indien beschikbaar. */
@@ -21,8 +21,27 @@ export interface WeatherSnapshot {
   isHeavyRainRisk: boolean;
 }
 
+export interface HourlyWeather {
+  /** Tijdstip waarvoor deze verwachting geldt (ISO 8601, lokale tijd). */
+  time: string;
+  temperatureC: number;
+  precipitationProbability: number | null;
+  weatherCode: number;
+  isThunderstormRisk: boolean;
+  isHeavyRainRisk: boolean;
+}
+
+export interface WeatherForecast {
+  current: WeatherSnapshot;
+  /** Uurverwachting voor de komende ~24 uur. */
+  hourly: HourlyWeather[];
+  /** Tijdzone waarin de tijden zijn uitgedrukt. */
+  timezone: string;
+}
+
 export interface WeatherProvider {
   getCurrent(lat: number, lon: number, signal?: AbortSignal): Promise<WeatherSnapshot>;
+  getForecast(lat: number, lon: number, signal?: AbortSignal): Promise<WeatherForecast>;
 }
 
 import { OpenMeteoProvider } from "./openMeteo";
@@ -36,7 +55,11 @@ export function getWeatherProvider(): WeatherProvider {
   }
 }
 
-/** Convenience helper voor componenten. */
+/** Convenience helpers voor componenten. */
 export function getCurrentWeather(lat: number, lon: number, signal?: AbortSignal) {
   return getWeatherProvider().getCurrent(lat, lon, signal);
+}
+
+export function getWeatherForecast(lat: number, lon: number, signal?: AbortSignal) {
+  return getWeatherProvider().getForecast(lat, lon, signal);
 }

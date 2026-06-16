@@ -57,3 +57,30 @@ describe("OpenMeteoProvider", () => {
     await expect(new OpenMeteoProvider().getCurrent(0, 0)).rejects.toThrow("503");
   });
 });
+
+describe("OpenMeteoProvider.getForecast", () => {
+  it("bouwt een uurverwachting met tijdstippen en risicovlaggen", async () => {
+    mockFetchOnce({
+      current: {
+        time: "2026-06-15T10:00",
+        temperature_2m: 30,
+        apparent_temperature: 34,
+        precipitation: 0,
+        weather_code: 1,
+        wind_speed_10m: 8,
+      },
+      hourly: {
+        time: ["2026-06-15T10:00", "2026-06-15T11:00", "2026-06-15T12:00"],
+        temperature_2m: [30, 31, 32],
+        precipitation_probability: [10, 40, 90],
+        weather_code: [1, 80, 95],
+      },
+    });
+    const fc = await new OpenMeteoProvider().getForecast(5.852, -55.2038);
+    expect(fc.hourly).toHaveLength(3);
+    expect(fc.hourly[0]!.time).toBe("2026-06-15T10:00");
+    expect(fc.hourly[2]!.isThunderstormRisk).toBe(true);
+    expect(fc.hourly[1]!.precipitationProbability).toBe(40);
+    expect(fc.timezone).toBe("America/Paramaribo");
+  });
+});
