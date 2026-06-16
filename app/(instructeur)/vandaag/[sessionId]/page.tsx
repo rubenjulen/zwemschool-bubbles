@@ -105,9 +105,17 @@ export default function AttendancePage({ params }: { params: { sessionId: string
 
   return (
     <AppShell title="Aanwezigheid">
-      <Link href="/vandaag" className="mb-2 inline-block text-xs text-bubbles-700 underline">
-        &larr; Terug naar vandaag
-      </Link>
+      <div className="mb-2 flex items-center justify-between">
+        <Link href="/vandaag" className="text-xs text-bubbles-700 underline">
+          &larr; Terug naar vandaag
+        </Link>
+        <Link
+          href={`/vandaag/${sessionId}/incident`}
+          className="rounded-lg bg-rose-50 px-2 py-1 text-xs font-medium text-rose-700"
+        >
+          ⚠ Incident melden
+        </Link>
+      </div>
 
       {pending > 0 && (
         <div className="mb-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">

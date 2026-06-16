@@ -1,27 +1,43 @@
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { Card } from "@/components/ui/Card";
+import { createClient } from "@/lib/supabase/server";
 
-// Beheer-dashboard (Prompt 25) - skeleton. KPI's en operationele takenlijst
-// (inschrijvingen, betalingen, incidenten, wachtlijst, dataverzoeken) volgen
-// in Iteratie 4 met data via Supabase views/RPC's.
-const KPIS = [
-  { label: "Actieve leerlingen", value: "-" },
-  { label: "Lessen deze week", value: "-" },
-  { label: "Bezetting", value: "-" },
-  { label: "Wachtlijst", value: "-" },
-  { label: "Openstaand bedrag", value: "-" },
-  { label: "Open incidenten", value: "-" },
-];
+interface DashboardKpis {
+  active_students: number;
+  lessons_this_week: number;
+  occupancy_pct: number;
+  waitlist: number;
+  outstanding_cents: number;
+  open_incidents: number;
+  trial_requests: number;
+}
 
-export default function BeheerDashboard() {
+function srd(cents: number): string {
+  return "SRD " + (cents / 100).toLocaleString("nl-NL", { minimumFractionDigits: 2 });
+}
+
+export default async function BeheerDashboard() {
+  const supabase = createClient();
+  const { data } = await supabase.rpc("get_admin_dashboard");
+  const kpi = (Array.isArray(data) ? data[0] : data) as DashboardKpis | undefined;
+
+  const cards = [
+    { label: "Actieve leerlingen", value: kpi?.active_students ?? 0 },
+    { label: "Lessen deze week", value: kpi?.lessons_this_week ?? 0 },
+    { label: "Bezetting", value: `${kpi?.occupancy_pct ?? 0}%` },
+    { label: "Wachtlijst", value: kpi?.waitlist ?? 0 },
+    { label: "Proefaanvragen", value: kpi?.trial_requests ?? 0 },
+    { label: "Openstaand bedrag", value: srd(kpi?.outstanding_cents ?? 0) },
+  ];
+
   return (
     <AppShell title="Beheer">
       <div className="grid grid-cols-2 gap-3">
-        {KPIS.map((kpi) => (
-          <Card key={kpi.label}>
-            <p className="text-xs text-slate-500">{kpi.label}</p>
-            <p className="mt-1 text-xl font-bold text-bubbles-700">{kpi.value}</p>
+        {cards.map((c) => (
+          <Card key={c.label}>
+            <p className="text-xs text-slate-500">{c.label}</p>
+            <p className="mt-1 text-xl font-bold text-bubbles-700">{c.value}</p>
           </Card>
         ))}
       </div>
@@ -33,10 +49,17 @@ export default function BeheerDashboard() {
         Rooster & plaatsing beheren
       </Link>
 
-      <Card className="mt-3">
-        <h2 className="text-sm font-semibold text-bubbles-800">Takenlijst</h2>
-        <p className="mt-1 text-sm text-slate-500">Nog geen openstaande taken.</p>
-      </Card>
+      <Link
+        href="/beheer/incidenten"
+        className="tap-target mt-3 flex items-center justify-between rounded-xl border border-bubbles-100 bg-white p-3 text-sm font-medium text-bubbles-700 shadow-sm"
+      >
+        <span>Incidenten</span>
+        {kpi && kpi.open_incidents > 0 && (
+          <span className="rounded-full bg-rose-100 px-2 py-0.5 text-xs font-semibold text-rose-700">
+            {kpi.open_incidents} open
+          </span>
+        )}
+      </Link>
     </AppShell>
   );
 }
