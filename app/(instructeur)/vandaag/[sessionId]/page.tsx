@@ -159,6 +159,12 @@ export default function AttendancePage({ params }: { params: { sessionId: string
                   );
                 })}
               </div>
+              <Link
+                href={`/vandaag/${sessionId}/${r.student_id}`}
+                className="mt-2 inline-block text-xs text-bubbles-700 underline"
+              >
+                Skills afvinken &rarr;
+              </Link>
             </Card>
           ))}
         </div>

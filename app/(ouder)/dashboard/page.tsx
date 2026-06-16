@@ -45,6 +45,13 @@ export default function OuderDashboard() {
           Lessen bekijken & inschrijven
         </Link>
 
+        <Link
+          href="/voortgang"
+          className="tap-target flex items-center justify-center rounded-xl border border-bubbles-100 bg-white p-3 text-sm font-medium text-bubbles-700 shadow-sm"
+        >
+          Voortgang van mijn kind(eren)
+        </Link>
+
         <Link href="/profiel" className="block text-center text-sm text-bubbles-700 underline">
           Mijn gegevens en berichtvoorkeuren
         </Link>
