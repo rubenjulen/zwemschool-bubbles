@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { Card } from "@/components/ui/Card";
-import { StatusBadge } from "@/components/ui/StatusBadge";
 import { WeatherWidget } from "@/components/WeatherWidget";
 
 // Ouderdashboard (Prompt 16) - skeleton. Volgende les, kinderen + voortgang,
@@ -18,12 +17,14 @@ export default function OuderDashboard() {
 
         <WeatherWidget locationLabel="Hoofdbad Paramaribo" />
 
-        <Card>
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-bubbles-800">Openstaand bedrag</h2>
-            <StatusBadge tone="success">Niets open</StatusBadge>
-          </div>
-        </Card>
+        <Link href="/betalingen" className="block">
+          <Card>
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-bubbles-800">Facturen & betalingen</h2>
+              <span className="text-xs text-bubbles-700 underline">Bekijken</span>
+            </div>
+          </Card>
+        </Link>
 
         <Card>
           <h2 className="text-sm font-semibold text-bubbles-800">Kinderen</h2>

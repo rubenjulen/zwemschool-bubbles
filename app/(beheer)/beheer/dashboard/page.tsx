@@ -50,6 +50,18 @@ export default async function BeheerDashboard() {
       </Link>
 
       <Link
+        href="/beheer/facturatie"
+        className="tap-target mt-3 flex items-center justify-between rounded-xl border border-bubbles-100 bg-white p-3 text-sm font-medium text-bubbles-700 shadow-sm"
+      >
+        <span>Facturatie & betalingen</span>
+        {kpi && kpi.outstanding_cents > 0 && (
+          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700">
+            {srd(kpi.outstanding_cents)} open
+          </span>
+        )}
+      </Link>
+
+      <Link
         href="/beheer/incidenten"
         className="tap-target mt-3 flex items-center justify-between rounded-xl border border-bubbles-100 bg-white p-3 text-sm font-medium text-bubbles-700 shadow-sm"
       >
