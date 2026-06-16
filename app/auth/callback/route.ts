@@ -7,12 +7,20 @@ import { defaultRouteForRole, roleFromClaims } from "@/lib/auth/roles";
 // portaal op basis van rol (SEC-1). Twee varianten worden afgehandeld:
 //  - PKCE: ?code=...            -> exchangeCodeForSession
 //  - Magic link / OTP: ?token_hash=...&type=... -> verifyOtp
+//
+// LET OP: de app draait achter een reverse proxy (Caddy). request.nextUrl.origin
+// is intern (localhost:3000); voor absolute redirects gebruiken we daarom het
+// publieke adres uit de X-Forwarded-Host-header.
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl;
   const code = searchParams.get("code");
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
   const next = searchParams.get("next");
+
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  const isLocal = process.env.NODE_ENV === "development";
+  const base = !isLocal && forwardedHost ? `https://${forwardedHost}` : origin;
 
   const supabase = createClient();
 
@@ -24,11 +32,11 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type });
     authError = error?.message ?? null;
   } else {
-    return NextResponse.redirect(`${origin}/login?error=missing_code`);
+    return NextResponse.redirect(`${base}/login?error=missing_code`);
   }
 
   if (authError) {
-    return NextResponse.redirect(`${origin}/login?error=auth`);
+    return NextResponse.redirect(`${base}/login?error=auth`);
   }
 
   const {
@@ -36,5 +44,5 @@ export async function GET(request: NextRequest) {
   } = await supabase.auth.getUser();
   const role = roleFromClaims({ app_metadata: user?.app_metadata });
   const target = next ?? defaultRouteForRole(role);
-  return NextResponse.redirect(`${origin}${target}`);
+  return NextResponse.redirect(`${base}${target}`);
 }
