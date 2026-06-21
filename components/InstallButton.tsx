@@ -57,7 +57,7 @@ export function InstallButton() {
       {deferred ? (
         <>
           <p className="mt-1 text-xs text-slate-600">
-            Installeer TheBubbles als app op dit apparaat — dan opent de app los van de browser, ook
+            Installeer The Bubbles als app op dit apparaat — dan opent de app los van de browser, ook
             offline.
           </p>
           <Button onClick={install} className="mt-2 w-full">

@@ -6,7 +6,7 @@ import { test, expect } from "@playwright/test";
 
 test("landingspagina toont de portaalkeuzes", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "Zwemschool Bubbles" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The Bubbles" })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ouder/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Instructeur/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Beheer/ })).toBeVisible();
@@ -16,7 +16,7 @@ test("manifest is bereikbaar en installeerbaar", async ({ request }) => {
   const res = await request.get("/manifest.webmanifest");
   expect(res.ok()).toBeTruthy();
   const manifest = await res.json();
-  expect(manifest.name).toBe("Zwemschool Bubbles");
+  expect(manifest.name).toBe("The Bubbles");
   expect(manifest.display).toBe("standalone");
   expect(manifest.icons.length).toBeGreaterThanOrEqual(2);
 });

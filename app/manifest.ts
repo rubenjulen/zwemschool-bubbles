@@ -4,10 +4,10 @@ import type { MetadataRoute } from "next";
 // Beschikbaar op /manifest.webmanifest.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Zwemschool Bubbles",
-    short_name: "Bubbles",
+    name: "The Bubbles",
+    short_name: "The Bubbles",
     description:
-      "Ouderportaal, instructeurapp en beheer voor Zwemschool Bubbles - installeerbaar en offline-first.",
+      "Ouderportaal, instructeurapp en beheer voor zwemschool The Bubbles - installeerbaar en offline-first.",
     start_url: "/",
     scope: "/",
     display: "standalone",

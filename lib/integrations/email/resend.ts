@@ -3,7 +3,7 @@
 // Afzender valt onder het geverifieerde domein bubbles.koniq.app.
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
-const FROM = process.env.EMAIL_FROM ?? "Zwemschool Bubbles <noreply@bubbles.koniq.app>";
+const FROM = process.env.EMAIL_FROM ?? "The Bubbles <noreply@bubbles.koniq.app>";
 
 export interface SendEmailResult {
   ok: boolean;

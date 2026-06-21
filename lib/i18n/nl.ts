@@ -3,7 +3,7 @@
 // in componenten.
 export const nl = {
   app: {
-    name: "Zwemschool Bubbles",
+    name: "The Bubbles",
     tagline: "Veilig en eenvoudig zwemles regelen.",
   },
   status: {

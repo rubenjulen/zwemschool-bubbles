@@ -4,13 +4,13 @@ import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 import { OfflineBanner } from "@/components/OfflineBanner";
 
 export const metadata: Metadata = {
-  title: "Zwemschool Bubbles",
+  title: "The Bubbles",
   description: "Veilig en eenvoudig zwemles regelen - voor ouders, instructeurs en beheer.",
-  applicationName: "Zwemschool Bubbles",
+  applicationName: "The Bubbles",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Bubbles",
+    title: "The Bubbles",
   },
   formatDetection: { telephone: false },
 };
