@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { AppShell } from "@/components/AppShell";
 import { InstallButton } from "@/components/InstallButton";
 import { nl } from "@/lib/i18n/nl";
@@ -8,9 +9,16 @@ import { nl } from "@/lib/i18n/nl";
 export default function Home() {
   return (
     <AppShell title={nl.app.name}>
-      <section className="space-y-2 text-center">
-        <h1 className="text-2xl font-bold text-bubbles-800">{nl.app.name}</h1>
-        <p className="text-sm text-slate-600">{nl.app.tagline}</p>
+      <section className="text-center">
+        <Image
+          src="/brand/logo.png"
+          alt={nl.app.name}
+          width={560}
+          height={326}
+          className="mx-auto h-auto w-full max-w-[260px]"
+          unoptimized
+          priority
+        />
       </section>
 
       <nav className="mt-6 grid gap-3" aria-label="Kies je portaal">
