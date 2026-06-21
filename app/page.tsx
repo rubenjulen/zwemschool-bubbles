@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
-import { Card } from "@/components/ui/Card";
+import { InstallButton } from "@/components/InstallButton";
 import { nl } from "@/lib/i18n/nl";
 
 // Publieke landingspagina + rolingangen. In een latere iteratie stuurt de
@@ -19,13 +19,7 @@ export default function Home() {
         <PortalLink href="/beheer/dashboard" title="Beheer / kantoor" desc="Planning, taken, facturatie en dashboards" />
       </nav>
 
-      <Card className="mt-6">
-        <h2 className="text-sm font-semibold text-bubbles-800">App installeren</h2>
-        <p className="mt-1 text-xs text-slate-600">
-          Tik in je browser op <span className="font-medium">Delen &rarr; Zet op beginscherm</span> (iOS) of
-          op <span className="font-medium">Installeren</span> (Android) om Bubbles als app te gebruiken.
-        </p>
-      </Card>
+      <InstallButton />
     </AppShell>
   );
 }
