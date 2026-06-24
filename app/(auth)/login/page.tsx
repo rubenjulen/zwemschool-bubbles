@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { AppShell } from "@/components/AppShell";
 import { Card } from "@/components/ui/Card";
@@ -65,13 +64,6 @@ export default function LoginPage() {
           </form>
         )}
       </Card>
-
-      <p className="mt-6 text-center text-xs text-slate-400">
-        Medewerker?{" "}
-        <Link href="/medewerker" className="text-bubbles-700 underline">
-          Log hier in
-        </Link>
-      </p>
     </AppShell>
   );
 }

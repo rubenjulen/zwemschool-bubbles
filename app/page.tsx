@@ -33,13 +33,6 @@ export default function Home() {
       </Link>
 
       <InstallButton />
-
-      <p className="mt-6 text-center text-xs text-slate-400">
-        Medewerker?{" "}
-        <Link href="/medewerker" className="text-bubbles-700 underline">
-          Log hier in
-        </Link>
-      </p>
     </AppShell>
   );
 }

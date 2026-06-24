@@ -4,11 +4,10 @@ import { test, expect } from "@playwright/test";
 // serveert een geldig web app manifest (FR-13.1). Functionele flows komen in
 // latere iteraties (zie het E2E-testplan, Prompt 38).
 
-test("landingspagina toont de ouder-ingang + medewerker-link", async ({ page }) => {
+test("landingspagina toont de ouder-ingang", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "The Bubbles" })).toBeVisible();
   await expect(page.getByRole("link", { name: /Inloggen/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Medewerker/ })).toBeVisible();
 });
 
 test("manifest is bereikbaar en installeerbaar", async ({ request }) => {
