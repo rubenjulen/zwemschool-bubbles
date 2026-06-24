@@ -6,8 +6,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Alles behalve statische assets, de service worker en het manifest.
+  // Alles behalve statische assets, iconen/branding, de service worker en het manifest.
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|sw.js|manifest.webmanifest|icons/).*)",
+    "/((?!_next/static|_next/image|favicon.ico|sw.js|manifest.webmanifest|icons/|brand/|icon.png|apple-icon.png).*)",
   ],
 };

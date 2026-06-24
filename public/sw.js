@@ -5,7 +5,7 @@
  *  - API/Supabase-calls: NIET cachen (verse, autorisatie-gevoelige data).
  * Bump CACHE_VERSION bij elke release zodat oude caches worden opgeruimd.
  */
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 const CACHE_NAME = `bubbles-${CACHE_VERSION}`;
 const APP_SHELL = ["/", "/manifest.webmanifest", "/icons/icon-192.png"];
 
