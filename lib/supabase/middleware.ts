@@ -11,7 +11,7 @@ const ROUTE_GUARDS: { prefix: string; allow: Role[] }[] = [
   { prefix: "/dashboard", allow: ["guardian"] },
 ];
 
-const PUBLIC_PATHS = ["/", "/login", "/auth/callback"];
+const PUBLIC_PATHS = ["/", "/login", "/medewerker", "/auth/callback"];
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });

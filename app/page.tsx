@@ -4,8 +4,8 @@ import { AppShell } from "@/components/AppShell";
 import { InstallButton } from "@/components/InstallButton";
 import { nl } from "@/lib/i18n/nl";
 
-// Publieke landingspagina + rolingangen. In een latere iteratie stuurt de
-// middleware een ingelogde gebruiker direct door naar het juiste portaal.
+// Publieke ouder-startpagina (Optie A). Medewerkers loggen apart in via
+// /medewerker (discrete link onderaan). Beveiliging zit in RLS + middleware.
 export default function Home() {
   return (
     <AppShell title={nl.app.name}>
@@ -21,25 +21,25 @@ export default function Home() {
         />
       </section>
 
-      <nav className="mt-6 grid gap-3" aria-label="Kies je portaal">
-        <PortalLink href="/dashboard" title="Ouder / verzorger" desc="Rooster, afmelden, voortgang en betalingen" />
-        <PortalLink href="/vandaag" title="Instructeur" desc="Leslijst, aanwezigheid en skills - werkt offline" />
-        <PortalLink href="/beheer/dashboard" title="Beheer / kantoor" desc="Planning, taken, facturatie en dashboards" />
-      </nav>
+      <p className="mt-4 text-center text-sm text-slate-600">
+        Welkom! Log in of meld je kind aan voor zwemles.
+      </p>
+
+      <Link
+        href="/login"
+        className="tap-target mt-4 flex items-center justify-center rounded-xl bg-bubbles-500 px-4 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-bubbles-600"
+      >
+        Inloggen / aanmelden
+      </Link>
 
       <InstallButton />
-    </AppShell>
-  );
-}
 
-function PortalLink({ href, title, desc }: { href: string; title: string; desc: string }) {
-  return (
-    <Link
-      href={href}
-      className="tap-target flex flex-col rounded-xl border border-bubbles-100 bg-white p-4 shadow-sm transition hover:border-bubbles-300 hover:shadow"
-    >
-      <span className="font-semibold text-bubbles-800">{title}</span>
-      <span className="text-xs text-slate-500">{desc}</span>
-    </Link>
+      <p className="mt-6 text-center text-xs text-slate-400">
+        Medewerker?{" "}
+        <Link href="/medewerker" className="text-bubbles-700 underline">
+          Log hier in
+        </Link>
+      </p>
+    </AppShell>
   );
 }
